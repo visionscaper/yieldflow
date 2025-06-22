@@ -8,7 +8,7 @@ from basics.logging_utils import log_exception
 from yieldflow.pipelines import ProcessingPipeline, ProcessStepFunc
 
 
-ProcessDataThroughPipeLine = Callable[
+ProcessDataThroughPipelineFunc = Callable[
     [
         Iterator[Any], # Data items iterator
         Iterator[Tuple[str, ProcessStepFunc]] # Iterator over tuples (step_description, step_func)
@@ -54,7 +54,7 @@ class PipelineProcessor(Base):
             Processed data items from the pipeline
         """
         pipeline_iter = iter(self._pipeline)
-        process_stream_func: ProcessDataThroughPipeLine = self._process_parallel \
+        process_stream_func: ProcessDataThroughPipelineFunc = self._process_parallel \
             if self._max_workers_per_step and self._max_workers_per_step > 1 \
             else self._process_sequential
 
